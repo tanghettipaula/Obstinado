@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1512" />
+<title>Paula Tanghetti — Obstinado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#ffffff;
+    --ink:#000000;
+    --muted:rgba(0,0,0,0.47);
+    --cream:#f6f2ed;
+    --soft:#878787;
+    --radius:62px;
+    --ease: cubic-bezier(.76,0,.24,1);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"General Sans",-apple-system,BlinkMacSystemFont,sans-serif;font-feature-settings:"ss01";}
+  body{width:1512px;margin:0 auto;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+
+  /* ============ NAV ============ */
+  .nav{
+    position:sticky;top:0;z-index:40;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:34px 72px 28px;
+    background:rgba(255,255,255,.86);
+    backdrop-filter:saturate(140%) blur(10px);
+    -webkit-backdrop-filter:saturate(140%) blur(10px);
+  }
+  .brand{font-weight:700;font-size:22px;line-height:1.05;letter-spacing:.01em}
+  .brand span{display:block}
+  .menu{display:flex;gap:92px;font-weight:500;font-size:18px;letter-spacing:.14em;text-transform:uppercase}
+  .menu a{position:relative;padding:6px 0}
+  .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:#000;transition:right .5s var(--ease)}
+  .menu a:hover::after{right:0}
+
+  /* ============ BREADCRUMBS / PROJECT NAV (text-only with chevrons) ============ */
+  .crumbs{
+    display:flex;justify-content:flex-end;align-items:center;gap:56px;
+    padding:18px 72px 0;
+  }
+  .pill{
+    display:inline-flex;align-items:center;gap:14px;
+    color:var(--soft);font-size:22px;font-weight:500;line-height:1;letter-spacing:.005em;
+    padding:6px 4px;
+    transition:color .35s var(--ease);
+  }
+  .pill svg path{ transition:stroke .35s var(--ease); }
+  .pill:hover{ color:#000; }
+  .pill:hover svg path{ stroke:#000; }
+
+  /* ============ INTRO ============ */
+  .intro{padding:36px 72px 36px}
+  .eyebrow{font-size:18px;font-weight:500;letter-spacing:.04em;color:var(--soft);text-transform:uppercase;margin-bottom:14px}
+  h1{
+    margin:0;
+    font-size:88px;line-height:.95;font-weight:700;letter-spacing:-.02em;
+  }
+
+  /* ============ HERO IMAGE ============ */
+  .hero{
+    margin:36px 40px 0;
+    border-radius:var(--radius);
+    overflow:hidden;
+    aspect-ratio: 1432 / 953;
+    background: #e8e3dc url("assets/hero-new.png") center/cover no-repeat;
+  }
+
+  /* ============ TAGS + BLURB ============ */
+  .tags{display:flex;gap:18px;padding:56px 72px 24px;flex-wrap:wrap}
+  .tag{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:10px 28px;border-radius:51px;
+    font-size:26px;font-weight:500;line-height:1;
+    color:#000;background:transparent;border:none;
+    transition:opacity .35s var(--ease);
+  }
+  .tag:hover{opacity:.55}
+
+  .blurb{
+    padding:8px 72px 24px;
+    display:block;
+  }
+  .blurb-text{max-width:none}
+  .blurb-actions{
+    display:flex;justify-content:flex-end;
+    margin-top:18px;
+  }
+  .blurb p{
+    margin:0;
+    font-size:44px;line-height:1.06;font-weight:500;letter-spacing:-.015em;
+    text-wrap:pretty;
+  }
+  .blurb-lead{font-size:44px}
+  .blurb-extra{
+    max-height:0;
+    transition:max-height .55s var(--ease), opacity .45s var(--ease), margin-top .45s var(--ease);
+    opacity:0;margin-top:0;
+    overflow:hidden;
+  }
+  .blurb-extra-inner{font-size:47px}
+  .blurb-extra-inner p{
+    font-size:47px;line-height:49px;font-weight:500;letter-spacing:0;
+    margin:0 0 28px 0;color:#000;
+    max-width:1261px;
+  }
+  .blurb-extra-inner p:last-child{margin-bottom:0}
+  .blurb.is-open .blurb-extra{
+    max-height:3000px;
+    opacity:1;margin-top:36px;
+  }
+  .plus{
+    width:74px;height:74px;border-radius:50%;background:#000;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:400;
+    transition:transform .5s var(--ease);
+    cursor:pointer;
+    margin-top:0;
+    border:none;font-family:inherit;
+    position:relative;
+    align-self:start;
+  }
+  .plus::before, .plus::after{
+    content:"";position:absolute;background:#fff;border-radius:2px;
+    transition:transform .45s var(--ease), opacity .35s var(--ease);
+  }
+  .plus::before{ width:24px;height:2px; }
+  .plus::after { width:2px;height:24px; }
+  .blurb.is-open .plus::after{ transform:scaleY(0); opacity:0; }
+  .plus:hover{transform:rotate(90deg)}
+  .blurb.is-open .plus:hover{transform:rotate(0)}
+
+  /* ============ CREAM BAND with oversized brand ============ */
+  .band{
+    margin:0 40px;
+    background:var(--cream);
+    border-radius:var(--radius);
+    height:669px;
+    overflow:hidden;
+    position:relative;
+  }
+  .band-inner{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .band-inner img{width:96%;height:70%;object-fit:contain}
+
+  /* ============ LARGE CASE IMAGE ============ */
+  .case{
+    margin:52px 40px 0;
+    border-radius:var(--radius);
+    overflow:hidden;
+    aspect-ratio: 1432 / 974;
+    background: url("assets/img1.jpg") center/cover no-repeat;
+  }
+
+  /* ============ DUO ============ */
+  .duo{
+    display:grid;grid-template-columns:1fr 1fr;gap:36px;
+    margin:36px 40px 0;
+  }
+  .duo .card{
+    border-radius:var(--radius);
+    aspect-ratio: 698 / 654;
+    background-color:#efe9df;background-size:cover;background-position:center;background-repeat:no-repeat;
+  }
+
+  /* ============ FULL-WIDTH ETIQUETA (shop window) ============ */
+  .etiqueta{
+    margin:36px 40px 0;
+    border-radius:var(--radius);
+    overflow:hidden;
+    aspect-ratio: 1432 / 966;
+    background: url("assets/etiqueta-new.jpg") center/cover no-repeat #efe9df;
+  }
+
+  /* ============ COFFEE-CUP IMAGE (in side-by-side row) ============ */
+  .cup{
+    border-radius:var(--radius);
+    overflow:hidden;
+    aspect-ratio: 698 / 654;
+    background: url("assets/cup-new.png") center/cover no-repeat #f4c84a;
+  }
+
+  /* full-bleed context shot (girl with t-shirt) */
+  .contexto{
+    margin:36px 40px 0;
+    border-radius:var(--radius);
+    overflow:hidden;
+    aspect-ratio: 1448 / 970;
+    background: url("assets/contexto.png") center/cover no-repeat #6ca6cf;
+  }
+
+  /* ============ CARROUSEL ROW (continuous) ============ */
+  .carousel-row{
+    display:grid;grid-template-columns:1fr 1fr;gap:36px;
+    margin:36px 40px 0;
+  }
+  .carousel{
+    position:relative;
+    border-radius:var(--radius);
+    aspect-ratio: 698 / 654;
+    background:#e8e1d2;
+    overflow:hidden;
+    isolation:isolate;
+  }
+  /* Carousel matches the cream tone of the inset images */
+  .carousel{ background:#efe6d6; }
+  .carousel .frame{
+    position:absolute;
+    inset:0;
+    background-size:cover;background-position:center;background-repeat:no-repeat;
+    opacity:0;
+    animation: cut 1.8s steps(1,end) infinite;
+  }
+  .carousel .frame:nth-child(1){ animation-delay: 0s; }
+  .carousel .frame:nth-child(2){ animation-delay: -1.2s; }
+  .carousel .frame:nth-child(3){ animation-delay: -0.6s; }
+  @keyframes cut {
+    0%, 33.33%  { opacity:1; }
+    33.34%, 100%{ opacity:0; }
+  }
+
+  /* ============ TOP BUTTON (top-right above proj nav) ============ */
+  .top-row{
+    display:flex;justify-content:flex-end;align-items:center;
+    margin:60px 72px 18px;
+  }
+  .top-btn{
+    display:inline-flex;align-items:center;gap:18px;cursor:pointer;
+  }
+  .top-btn .t{font-size:30px;font-weight:500;letter-spacing:.02em;color:#000}
+  .top-btn .circle{
+    width:60px;height:60px;border-radius:50%;background:#000;color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .6s var(--ease);
+  }
+  .top-btn:hover .circle{transform:translateY(-8px)}
+
+  /* ============ CONTACT FOOTER (full-bleed black bar) ============ */
+  .contact{
+    margin:24px 0 0;
+    background:#000;color:#fff;
+    padding:80px 72px 80px;
+    display:grid;grid-template-columns:1fr 1fr;gap:40px;
+    align-items:start;
+  }
+  .contact .left, .contact .right{
+    display:flex;flex-direction:column;gap:18px;
+    font-size:34px;font-weight:700;letter-spacing:.02em;line-height:1.15;
+  }
+  .contact .right{align-items:flex-start}
+  .contact .right a{
+    text-decoration:underline;
+    text-underline-offset:6px;
+    text-decoration-thickness:2px;
+  }
+
+  /* ============ BOTTOM PROJ NAV ============ */
+  .proj-nav{
+    display:flex;justify-content:space-between;padding:44px 72px 48px;
+    color:var(--muted);font-size:20px;font-weight:500;
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav" id="top">
+    <div class="brand"><span>PAULA</span><span>TANGHETTI</span></div>
+    <nav class="menu">
+      <a href="#">WORK</a>
+      <a href="#">ABOUT</a>
+      <a href="#">CONTACT</a>
+    </nav>
+  </header>
+
+  <!-- BREADCRUMBS (text-only chevron nav, both right-aligned) -->
+  <div class="crumbs">
+    <a class="pill prev" href="#">
+      <svg width="7" height="14" viewBox="0 0 7 14" fill="none"><path d="M6 13L1 6.99905L6 1.00003" stroke="#878787" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Obstinado</span>
+    </a>
+    <a class="pill next" href="#">
+      <span>Next</span>
+      <svg width="7" height="14" viewBox="0 0 7 14" fill="none" style="transform:scaleX(-1)"><path d="M6 13L1 6.99905L6 1.00003" stroke="#878787" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+
+  <!-- INTRO (arrow/circle removed) -->
+  <section class="intro">
+    <div class="eyebrow">Proyecto</div>
+    <h1>OBSTINADO</h1>
+  </section>
+
+  <!-- HERO IMAGE -->
+  <div class="hero" aria-label="Obstinado hero"></div>
+
+  <!-- TAGS -->
+  <div class="tags">
+    <span class="tag">Logo design</span>
+    <span class="tag">Naming</span>
+    <span class="tag">Packaging</span>
+    <span class="tag">Brand identity</span>
+  </div>
+
+  <!-- BLURB -->
+  <div class="blurb">
+    <div class="blurb-text">
+      <p class="blurb-lead">Obstinado Tostadores es una tostadora de café de especialidad que trabaja cada grano con precisión, cuidado y una determinación sin concesiones, que expande su universo con un cold brew tan obstinado como todo lo que hacen para ofrecer solo lo mejor.</p>
+      <div class="blurb-extra" id="blurbExtra" aria-hidden="true">
+        <div class="blurb-extra-inner">
+        <p>«Elegimos el camino más exigente, no el más fácil». Desde esta convicción, Obstinado construye su posicionamiento: sin atajos, sin producción en masa, sin renunciar a la excelencia que cada grano merece.</p>
+        <p>El universo visual nace de esa misma energía. El colibrí —símbolo de la marca— los identifica perfectamente: el ave más obstinada de la naturaleza, que bate las alas cientos de veces por segundo sin detenerse, que desafía su propio tamaño con una fuerza desproporcionada. La naturaleza, en su perfección, nos da la mejor metáfora de lo que es un buen café: movimiento constante, energía natural y una belleza que no necesita ser explicada.</p>
+        <p>El proyecto abarca el desarrollo del naming, la identidad de marca y el packaging del cold brew de Obstinado. Una línea de producto que compite en el territorio de la energía —entre el ritual del café y la comodidad del energizante— y que lo hace desde sus propias reglas: con la profundidad del café de especialidad y la actitud de quien no necesita parecerse a nadie más.</p>
+        <p>Con una narrativa honesta y un carácter bien definido, Obstinado prescinde de lo superfluo, abraza la obstinación como virtud y convierte cada lata en una afirmación de lo que creen.</p>
+        </div>
+      </div>
+    </div>
+    <div class="blurb-actions">
+      <button class="plus" id="plusBtn" type="button" aria-expanded="false" aria-controls="blurbExtra" aria-label="Leer más"></button>
+    </div>
+  </div>
+
+  <!-- CREAM BAND WITH LOGO MARK -->
+  <div class="band">
+    <div class="band-inner"><img src="assets/logo-big.png" alt="Obstinado logo mark" /></div>
+  </div>
+
+  <!-- LARGE CASE IMAGE -->
+  <div class="case" aria-label="Obstinado packaging"></div>
+
+  <!-- DUO -->
+  <div class="duo">
+    <div class="card" style="background-image:url('assets/duo-left-new.png')"></div>
+    <div class="card" style="background-image:url('assets/img2.png')"></div>
+  </div>
+
+  <!-- SHOP WINDOW (etiqueta) -->
+  <div class="etiqueta" aria-label="Obstinado packaging label"></div>
+
+  <!-- CUP + CYCLING ANIMATION (side by side) -->
+  <div class="carousel-row">
+    <div class="cup" aria-label="Cold brew Obstinado"></div>
+    <div class="carousel" id="carousel" aria-label="Obstinado brand cycle">
+      <div class="frame" style="background-image:url('assets/logo-tan.jpg')"></div>
+      <div class="frame" style="background-image:url('assets/gif2.jpg')"></div>
+      <div class="frame" style="background-image:url('assets/gif-cycle.png')"></div>
+    </div>
+  </div>
+
+  <!-- CONTEXT (girl t-shirt) -->
+  <div class="contexto" aria-label="Obstinado merch"></div>
+
+  <!-- TOP button (top-right) -->
+  <div class="top-row">
+    <a class="top-btn" href="#top" id="topBtn">
+      <span class="t">TOP</span>
+      <span class="circle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </span>
+    </a>
+  </div>
+
+  <!-- PROJECT NAV (right-aligned) -->
+  <div class="proj-nav" style="display:flex;justify-content:flex-end;gap:56px;align-items:center;padding:0 72px 60px;">
+    <a class="pill prev" href="#">
+      <svg width="7" height="14" viewBox="0 0 7 14" fill="none"><path d="M6 13L1 6.99905L6 1.00003" stroke="#878787" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Obstinado</span>
+    </a>
+    <a class="pill next" href="#">
+      <span>Next</span>
+      <svg width="7" height="14" viewBox="0 0 7 14" fill="none" style="transform:scaleX(-1)"><path d="M6 13L1 6.99905L6 1.00003" stroke="#878787" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+
+  <!-- CONTACT FOOTER (full bleed black) -->
+  <footer class="contact">
+    <div class="left">
+      <div>CONTACT</div>
+      <div>PAULATANGHETTI@GMAIL.COM</div>
+    </div>
+    <div class="right">
+      <a href="#" target="_blank" rel="noopener">INSTAGRAM</a>
+      <a href="#" target="_blank" rel="noopener">BEHANCE</a>
+    </div>
+  </footer>
+
+<script>
+  // Smooth scroll for TOP button
+  (function(){
+    const t = document.getElementById('topBtn');
+    if(!t) return;
+    t.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+  })();
+
+  // Toggle blurb extended copy
+  (function(){
+    const btn = document.getElementById('plusBtn');
+    const blurb = document.querySelector('.blurb');
+    const extra = document.getElementById('blurbExtra');
+    if(!btn || !blurb) return;
+    btn.addEventListener('click', () => {
+      const open = blurb.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      extra.setAttribute('aria-hidden', open ? 'false' : 'true');
+    });
+  })();
+</script>
+</body>
+</html>
